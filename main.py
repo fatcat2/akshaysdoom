@@ -63,6 +63,8 @@ def weaknessPerDayOverYear(results):
     weaknesses = [Weakness(row) for row in results]
     months = defaultdict(lambda: 0)
 
+    
+
     week_array = [[0] * 7 for x in range(53)]
 
     for weakness in weaknesses:
@@ -70,19 +72,34 @@ def weaknessPerDayOverYear(results):
         day = weakness.time.isocalendar().weekday - 1
         week_array[week][day] += weakness.total
 
-    week_array = np.rot90(np.array(week_array)).round()
+    week_array = np.rot90(np.array(week_array)).round().astype(int)
     fig, ax = plt.subplots()
-    im = ax.imshow(week_array, cmap="RdYlGn_r")
+    im = ax.imshow(week_array, cmap="Reds")
 
     ax.set_yticks(np.arange(7), labels=["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"])
-    ax.set_xticks(np.arange(53), labels=[ f"Week {x+1}" for x in range(53)])
+    ax.set_xticks(np.arange(53), labels=[
+        "", "Jan", "", "", "", 
+        "Feb", "", "", "", 
+        "", "Mar", "", "", "", 
+        "Apr", "", "", "", 
+        "", "May", "", "", "", 
+        "Jun", "", "", "", 
+        "Jul", "", "", "", 
+        "Aug", "", "", "", 
+        "", "Sep", "", "", "", 
+        "Oct", "", "", "", 
+        "", "Nov", "", "", "", 
+        "Dec", "", "", "",
+        ])
+                  #[ f"Week {x+1}" for x in range(53)])
 
     plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
          rotation_mode="anchor")
     for i in range(53):
         for j in range(7):
-            text = ax.text(i, j, week_array[j, i],
-                           ha="center", va="center", color="w", fontsize=5.0)
+            pass
+            # text = ax.text(i, j, week_array[j, i],
+            #                ha="center", va="center", color="0", fontsize=12)
 
 
     ax.set_title("akshay weakness in 2022")
