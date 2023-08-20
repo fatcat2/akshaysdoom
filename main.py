@@ -72,7 +72,7 @@ def weaknessPerDayOverYear(results):
         day = weakness.time.isocalendar().weekday - 1
         week_array[week][day] += weakness.total
 
-    week_array = np.rot90(np.array(week_array)).round().astype(int)
+    week_array = np.flipud(np.rot90(np.array(week_array)).round().astype(int))
     fig, ax = plt.subplots()
     im = ax.imshow(week_array, cmap="Reds")
 
