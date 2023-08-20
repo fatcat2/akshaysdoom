@@ -72,7 +72,7 @@ def weaknessPerDayOverYear(results):
 
     week_array = np.rot90(np.array(week_array)).round()
     fig, ax = plt.subplots()
-    im = ax.imshow(week_array)
+    im = ax.imshow(week_array, cmap="RdYlGn_r")
 
     ax.set_yticks(np.arange(7), labels=["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"])
     ax.set_xticks(np.arange(53), labels=[ f"Week {x+1}" for x in range(53)])
