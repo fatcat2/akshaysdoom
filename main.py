@@ -1,4 +1,5 @@
 import sqlite3
+import sys
 from pprint import pprint
 import matplotlib.pyplot as plt
 import numpy as np
@@ -72,7 +73,7 @@ def weaknessPerDayOverYear(results):
         day = weakness.time.isocalendar().weekday - 1
         week_array[week][day] += weakness.total
 
-    week_array = np.flipud(np.rot90(np.array(week_array)).round().astype(int))
+    week_array = np.rot90(np.array(week_array)).round().astype(int)
     fig, ax = plt.subplots()
     im = ax.imshow(week_array, cmap="Reds")
 
@@ -106,11 +107,24 @@ def weaknessPerDayOverYear(results):
     fig.tight_layout()
     plt.show()
 
+def importCSV(filename: str):
+    filepart = filename.split(".")[0]
+    conn = sqlite3.connect(f"{filepart}.db")
+    c = conn.cursor()
+    c.execute(".mode csv")
+    c.execute(f".import {filename} doordash")
+    conn.commit()
 
 
-
+"""
 with sqlite3.connect("doordash.db") as connection:
     c = connection.cursor()
     results = c.execute("select STORE_NAME, DELIVERY_TIME, sum(cast(SUBTOTAL as decimal)) from doordash group by DELIVERY_TIME, STORE_NAME;")
 
     weaknessPerDayOverYear(results)
+    """
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        raise Exception("input csv missing")
+    importCSV(sys.argv[1])
