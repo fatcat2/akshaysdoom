@@ -177,8 +177,8 @@ def importCSV(filename: str):
 
     csvReader = csv.reader(open("yeet.csv"), delimiter=",", quotechar='"')
 
-    filepart = filename.split(".")[0]
-    conn = sqlite3.connect(f"{filepart}.db")
+    filepart = filename.split(".")[0] + ".db"
+    conn = sqlite3.connect(filepart)
     c = conn.cursor()
     c.execute(CREATE_TABLE_COMMAND)
 
@@ -189,6 +189,12 @@ def importCSV(filename: str):
         validateRow(row)
         c.execute("insert into doordash values (?, ?, ?, ?, ?, ?, ?, ?, ?)", row)
     conn.commit()
+
+
+
+
+
+
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
